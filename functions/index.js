@@ -10,8 +10,8 @@ admin.initializeApp({
 
 
 const express = require('express');
-
 const app = express();
+const db = admin.firestore();
 
 const cors = require('cors');
 app.use(cors({origin: true}))
@@ -23,6 +23,23 @@ app.get('/hello-world', (req, res) => {
 
 // Create
 // post
+app.post('/api/create', (req, res) => {
+    (async () => {
+try {
+    await db.collection('products').doc('/' + req.body.id + '/')
+    .create({
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price
+    })
+
+    return res.status(200).send()
+} catch (error) {
+    console.log(error)
+    return res.status(500).send(error);
+}
+    })();
+})
 
 // Read
 // get
