@@ -1,9 +1,20 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+
+var serviceAccount = require("./apikey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://fir-tut-10215.firebaseio.com"
+});
+
+
 const express = require('express');
-const cors = require('cors');
+
 const app = express();
 
+const cors = require('cors');
+app.use(cors({origin: true}))
 
 // Routes
 app.get('/hello-world', (req, res) => {
