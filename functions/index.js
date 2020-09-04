@@ -81,7 +81,7 @@ app.get("/api/read", (req, res) => {
         return response;
       });
 
-      res.status(200).send(response);
+      return res.status(200).send(response);
     } catch (error) {
       console.log(error);
       return res.status(500).send(error);
@@ -91,6 +91,24 @@ app.get("/api/read", (req, res) => {
 
 // Update
 // put
+app.put("/api/update/:id", (req, res) => {
+  (async () => {
+    try {
+      const document = db.collection("products").doc(req.params.id);
+
+      await document.update({
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+      });
+
+      return res.status(200).send();
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  })();
+});
 
 // Delete
 // delete
